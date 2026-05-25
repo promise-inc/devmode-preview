@@ -13,6 +13,8 @@ import { DepsFeature } from '../features/deps';
 import { createShadowMount, type ShadowMount } from './shadow-root';
 import { getInitialTheme, persistTheme, resolveTheme, watchSystemTheme } from './theme';
 import { shouldRender } from './env';
+import { applySavedViewport } from '../features/viewport/state';
+import { unmountViewportIframe } from '../features/viewport/iframe';
 
 declare global {
   var __DEVMODE_PREVIEW_ROUTES__: DevModeRoute[] | undefined;
@@ -72,9 +74,11 @@ export function DevModePreview(props: DevModePreviewProps) {
     if (!info) return undefined;
     setMountInfo(info);
     setTheme(getInitialTheme(initialTheme));
+    applySavedViewport();
 
     return () => {
       info.destroy();
+      unmountViewportIframe();
       setMountInfo(null);
     };
   }, [enableInProduction, initialTheme]);

@@ -16,6 +16,14 @@ export interface IframeMount {
 export function mountViewportIframe(width: number): IframeMount | null {
   if (typeof document === 'undefined') return null;
 
+  const existing = getViewportIframe();
+  if (existing && existing.getAttribute('data-dmp-width') === String(width)) {
+    return {
+      iframe: existing,
+      destroy: () => unmountViewportIframe(),
+    };
+  }
+
   unmountViewportIframe();
 
   const host = document.createElement('div');
@@ -36,6 +44,7 @@ export function mountViewportIframe(width: number): IframeMount | null {
   frame.src = buildIframeUrl();
   frame.title = 'DevMode Preview viewport';
   frame.setAttribute('data-dmp-viewport-iframe', '');
+  frame.setAttribute('data-dmp-width', String(width));
   frame.style.cssText = [
     `width:${width}px`,
     'max-width:100%',
