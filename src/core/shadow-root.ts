@@ -46,7 +46,7 @@ export function createShadowMount(): ShadowMount | null {
   host.style.position = 'fixed';
   host.style.zIndex = '2147483646';
   host.style.inset = 'auto';
-  document.body.appendChild(host);
+  document.documentElement.appendChild(host);
 
   const shadow = host.shadowRoot;
   if (!shadow) {
