@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" width="800" height="460" role="img" aria-label="DevMode Preview drawer in action">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d0f10"/>
+      <stop offset="1" stop-color="#15181a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b6f23d"/>
+      <stop offset="1" stop-color="#7fd932"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+      <feOffset dx="0" dy="6" result="o"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.45"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .mono { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }
+      .sans { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+      .pulse { animation: p 2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+      @keyframes p { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.7; transform:scale(1.15); } }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect width="800" height="460" fill="url(#bg)"/>
+
+  <!-- mock app content faded -->
+  <g opacity="0.20" fill="#9aa3aa" class="sans">
+    <rect x="40" y="40" width="220" height="14" rx="3"/>
+    <rect x="40" y="62" width="160" height="10" rx="3"/>
+    <rect x="40" y="100" width="320" height="120" rx="8" fill="#1b1f22"/>
+    <rect x="40" y="240" width="320" height="80" rx="8" fill="#1b1f22"/>
+  </g>
+
+  <!-- drawer -->
+  <g filter="url(#shadow)">
+    <rect x="420" y="40" width="340" height="380" rx="14" fill="#0d0f10" stroke="#25292d"/>
+
+    <!-- drawer header -->
+    <g>
+      <circle cx="442" cy="65" r="4" fill="url(#accent)" class="pulse"/>
+      <text x="454" y="69" fill="#e7ecef" font-size="11" font-weight="700" letter-spacing="1.2" class="sans">DEVMODE · PREVIEW</text>
+      <g transform="translate(706,55)">
+        <rect width="22" height="22" rx="6" fill="transparent" stroke="#25292d"/>
+        <path d="M6 11h10" stroke="#9aa3aa" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <g transform="translate(732,55)">
+        <rect width="22" height="22" rx="6" fill="transparent" stroke="#25292d"/>
+        <path d="M7 7l8 8M15 7l-8 8" stroke="#9aa3aa" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+    </g>
+    <line x1="430" y1="86" x2="750" y2="86" stroke="#1d2124"/>
+
+    <!-- tabs -->
+    <g transform="translate(430,96)">
+      <rect width="74" height="28" rx="6" fill="#15181a" stroke="#25292d"/>
+      <text x="37" y="18" text-anchor="middle" fill="#e7ecef" font-size="11" font-weight="500" class="sans">Viewport</text>
+      <text x="120" y="18" fill="#9aa3aa" font-size="11" class="sans">Routes</text>
+      <text x="172" y="18" fill="#9aa3aa" font-size="11" class="sans">SEO</text>
+      <text x="220" y="18" fill="#9aa3aa" font-size="11" class="sans">Performance</text>
+    </g>
+
+    <line x1="430" y1="138" x2="750" y2="138" stroke="#1d2124"/>
+
+    <!-- viewport intro -->
+    <text x="446" y="160" fill="#9aa3aa" font-size="10.5" class="sans">
+      <tspan>Visually constrains the page width.</tspan>
+    </text>
+    <text x="446" y="176" fill="#9aa3aa" font-size="10.5" class="sans">
+      <tspan>Use Device Mode for accurate breakpoints.</tspan>
+    </text>
+
+    <!-- viewport grid -->
+    <g transform="translate(440,200)">
+      <!-- Mobile (selected) -->
+      <rect width="148" height="62" rx="8" fill="rgba(182,242,61,0.08)" stroke="#b6f23d"/>
+      <text x="14" y="26" fill="#b6f23d" font-size="14" font-weight="700" class="sans">Mobile</text>
+      <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">375px</text>
+
+      <!-- Tablet -->
+      <g transform="translate(160,0)">
+        <rect width="148" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
+        <text x="14" y="26" fill="#e7ecef" font-size="14" font-weight="700" class="sans">Tablet</text>
+        <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">768px</text>
+      </g>
+
+      <!-- Desktop -->
+      <g transform="translate(0,76)">
+        <rect width="148" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
+        <text x="14" y="26" fill="#e7ecef" font-size="14" font-weight="700" class="sans">Desktop</text>
+        <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">1280px</text>
+      </g>
+
+      <!-- Full -->
+      <g transform="translate(160,76)">
+        <rect width="148" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
+        <text x="14" y="26" fill="#e7ecef" font-size="14" font-weight="700" class="sans">Full</text>
+        <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">100%</text>
+      </g>
+    </g>
+
+    <!-- footer -->
+    <line x1="430" y1="392" x2="750" y2="392" stroke="#1d2124"/>
+    <text x="446" y="410" fill="#6b7480" font-size="10" class="mono">Persisted in localStorage · dev only</text>
+  </g>
+
+  <!-- FAB hint bottom left -->
+  <g transform="translate(40,400)">
+    <rect width="178" height="32" rx="16" fill="#15181a" stroke="#25292d"/>
+    <circle cx="18" cy="16" r="4" fill="url(#accent)" class="pulse"/>
+    <text x="30" y="20" fill="#e7ecef" font-size="11" font-weight="700" letter-spacing="1.2" class="sans">DEVMODE · PREVIEW</text>
+  </g>
+</svg>

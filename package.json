@@ -1,0 +1,117 @@
+{
+  "name": "@promise-inc/devmode-preview",
+  "version": "0.1.0",
+  "description": "In-app dev companion for React. Floating button + drawer with viewport switcher, route map, SEO/Performance/Tracker checks and dependency vulnerability scanning. Zero config in dev, invisible in production.",
+  "keywords": [
+    "react",
+    "vite",
+    "nextjs",
+    "devtools",
+    "dev-mode",
+    "preview",
+    "responsive",
+    "seo",
+    "performance",
+    "web-vitals",
+    "trackers",
+    "google-analytics",
+    "meta-pixel",
+    "vulnerabilities",
+    "osv",
+    "shadow-dom",
+    "promise-inc"
+  ],
+  "homepage": "https://github.com/promise-inc/devmode-preview#readme",
+  "bugs": {
+    "url": "https://github.com/promise-inc/devmode-preview/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/promise-inc/devmode-preview.git"
+  },
+  "license": "MIT",
+  "author": "Promise Inc. <hello@promise.codes> (https://promise.codes)",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./vite": {
+      "types": "./dist/plugins/vite/index.d.ts",
+      "import": "./dist/plugins/vite/index.js",
+      "require": "./dist/plugins/vite/index.cjs"
+    },
+    "./next": {
+      "types": "./dist/plugins/next/index.d.ts",
+      "import": "./dist/plugins/next/index.js",
+      "require": "./dist/plugins/next/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,md,json}\"",
+    "prepublishOnly": "yarn typecheck && yarn test && yarn build"
+  },
+  "peerDependencies": {
+    "next": ">=13",
+    "react": ">=18",
+    "react-dom": ">=18",
+    "vite": ">=4"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "web-vitals": "^4.2.4"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.6",
+    "@types/react-dom": "^19.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "eslint": "^9.18.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "jsdom": "^26.0.0",
+    "next": "^15.1.4",
+    "prettier": "^3.4.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
