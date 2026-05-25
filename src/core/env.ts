@@ -18,6 +18,7 @@ export function isInsideOwnIframe(): boolean {
   if (!isBrowser()) return false;
   try {
     if (window.self === window.top) return false;
+    if (window.name === VIEWPORT_IFRAME_FLAG) return true;
     const params = new URLSearchParams(window.location.search);
     return params.has(VIEWPORT_IFRAME_FLAG);
   } catch {

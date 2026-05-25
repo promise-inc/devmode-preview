@@ -41,6 +41,7 @@ export function mountViewportIframe(width: number): IframeMount | null {
   ].join(';');
 
   const frame = document.createElement('iframe');
+  frame.name = VIEWPORT_IFRAME_FLAG;
   frame.src = buildIframeUrl();
   frame.title = 'DevMode Preview viewport';
   frame.setAttribute('data-dmp-viewport-iframe', '');
