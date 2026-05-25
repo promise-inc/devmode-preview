@@ -70,9 +70,10 @@ export interface DepEntry {
   name: string;
   current: string;
   latest?: string;
+  publishedAt?: string;
   type: 'prod' | 'dev';
   vulns: DepVuln[];
-  outdated: 'major' | 'minor' | 'patch' | null;
+  outdated: 'major' | 'minor' | 'patch' | 'ahead' | null;
 }
 
 export interface DepVuln {
