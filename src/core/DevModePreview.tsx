@@ -13,8 +13,14 @@ import { DepsFeature } from '../features/deps';
 import { createShadowMount, type ShadowMount } from './shadow-root';
 import { getInitialTheme, persistTheme, resolveTheme, watchSystemTheme } from './theme';
 import { shouldRender } from './env';
-import { applySavedViewport } from '../features/viewport/state';
+import {
+  applySavedViewport,
+  getSavedViewport,
+  setViewport,
+  subscribeViewport,
+} from '../features/viewport/state';
 import { unmountViewportIframe } from '../features/viewport/iframe';
+import type { ViewportPreset } from '../types';
 
 declare global {
   var __DEVMODE_PREVIEW_ROUTES__: DevModeRoute[] | undefined;
@@ -66,6 +72,7 @@ export function DevModePreview(props: DevModePreviewProps) {
   const tabs = useMemo(() => TAB_DEFS.filter((t) => !disable.includes(t.id)), [disable]);
   const [activeTab, setActiveTab] = useState<FeatureKey>(tabs[0]?.id ?? 'viewport');
   const mergedRoutes = useMemo(() => mergeRoutes(routes), [routes]);
+  const [activeViewport, setActiveViewport] = useState<ViewportPreset['id']>('full');
 
   useEffect(() => {
     if (!shouldRender(enableInProduction)) return undefined;
@@ -75,8 +82,11 @@ export function DevModePreview(props: DevModePreviewProps) {
     setMountInfo(info);
     setTheme(getInitialTheme(initialTheme));
     applySavedViewport();
+    setActiveViewport(getSavedViewport());
+    const unsubscribe = subscribeViewport((id) => setActiveViewport(id));
 
     return () => {
+      unsubscribe();
       info.destroy();
       unmountViewportIframe();
       setMountInfo(null);
@@ -130,7 +140,14 @@ export function DevModePreview(props: DevModePreviewProps) {
 
   return createPortal(
     <div className="dmp-root" data-theme={resolved}>
-      {!open && <Fab onClick={() => setOpen(true)} position={position} />}
+      {!open && (
+        <Fab
+          position={position}
+          onOpen={() => setOpen(true)}
+          activeViewport={activeViewport}
+          onViewportChange={setViewport}
+        />
+      )}
       <Drawer
         open={open}
         onClose={() => setOpen(false)}

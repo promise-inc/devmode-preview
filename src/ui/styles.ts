@@ -66,9 +66,8 @@ export const STYLES = /* css */ `
   bottom: 20px;
   right: 20px;
   display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px 10px 14px;
+  align-items: stretch;
+  padding: 0;
   background: var(--dmp-bg-elev);
   color: var(--dmp-text);
   border: 1px solid var(--dmp-border);
@@ -76,8 +75,8 @@ export const STYLES = /* css */ `
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  cursor: pointer;
   box-shadow: var(--dmp-shadow);
+  overflow: hidden;
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
@@ -86,14 +85,73 @@ export const STYLES = /* css */ `
   border-color: var(--dmp-accent-ring);
 }
 
-.dmp-fab:focus-visible {
-  outline: 2px solid var(--dmp-accent-ring);
-  outline-offset: 2px;
-}
-
 .dmp-fab[data-position="bottom-left"] {
   right: auto;
   left: 20px;
+}
+
+.dmp-fab__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: transparent;
+  color: var(--dmp-text);
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 140ms ease;
+}
+
+.dmp-fab__label:hover {
+  background: var(--dmp-bg-soft);
+}
+
+.dmp-fab__label:focus-visible {
+  outline: 2px solid var(--dmp-accent-ring);
+  outline-offset: -2px;
+}
+
+.dmp-fab__shortcuts {
+  display: inline-flex;
+  align-items: center;
+  border-left: 1px solid var(--dmp-border-soft);
+}
+
+.dmp-fab__shortcut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  color: var(--dmp-text-soft);
+  border: 0;
+  border-left: 1px solid var(--dmp-border-soft);
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.dmp-fab__shortcuts > .dmp-fab__shortcut:first-child {
+  border-left: 0;
+}
+
+.dmp-fab__shortcut:hover {
+  background: var(--dmp-bg-soft);
+  color: var(--dmp-text);
+}
+
+.dmp-fab__shortcut:focus-visible {
+  outline: 2px solid var(--dmp-accent-ring);
+  outline-offset: -2px;
+}
+
+.dmp-fab__shortcut[data-active="true"] {
+  background: var(--dmp-accent-dim);
+  color: var(--dmp-accent);
 }
 
 .dmp-fab__dot {

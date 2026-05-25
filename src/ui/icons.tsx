@@ -49,3 +49,30 @@ export const IconExternal = (p: SVGProps<SVGSVGElement>) => (
     <path d="M14 4h6v6M10 14 20 4M20 14v6H4V4h6" />
   </svg>
 );
+
+export const IconMobile = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <rect x="7" y="3" width="10" height="18" rx="2" />
+    <path d="M11 18h2" />
+  </svg>
+);
+
+export const IconTablet = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <rect x="4" y="3" width="16" height="18" rx="2" />
+    <path d="M11 18h2" />
+  </svg>
+);
+
+export const IconDesktop = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <rect x="2" y="4" width="20" height="13" rx="2" />
+    <path d="M8 21h8M12 17v4" />
+  </svg>
+);
+
+export const IconFull = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="M3 9V4h5M21 9V4h-5M3 15v5h5M21 15v5h-5" />
+  </svg>
+);
