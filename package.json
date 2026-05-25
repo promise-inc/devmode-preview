@@ -1,6 +1,6 @@
 {
   "name": "@promise-inc/devmode-preview",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "In-app dev companion for React. Floating button + drawer with viewport switcher, route map, SEO/Performance/Tracker checks and dependency vulnerability scanning. Zero config in dev, invisible in production.",
   "keywords": [
     "react",

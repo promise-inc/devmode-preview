@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { ViewportPreset } from '../../types';
 import { readStorage, writeStorage } from '../../core/storage';
+import { mountViewportIframe, unmountViewportIframe } from './iframe';
 
 const PRESETS: ViewportPreset[] = [
   { id: 'mobile', label: 'Mobile', width: 375 },
@@ -10,40 +11,6 @@ const PRESETS: ViewportPreset[] = [
 ];
 
 const STORAGE_KEY = 'viewport';
-const STYLE_ID = 'dmp-viewport-style';
-
-function applyViewport(width: number | null): void {
-  if (typeof document === 'undefined') return;
-
-  let style = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
-  if (!style) {
-    style = document.createElement('style');
-    style.id = STYLE_ID;
-    document.head.appendChild(style);
-  }
-
-  if (width === null) {
-    style.textContent = '';
-    return;
-  }
-
-  style.textContent = `
-    html {
-      background: #0a0a0a !important;
-      overflow-x: hidden !important;
-    }
-    body {
-      max-width: ${width}px !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      min-height: 100vh;
-      overflow-x: hidden !important;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px -10px rgba(0,0,0,0.6) !important;
-      transform: translateZ(0) !important;
-      will-change: transform;
-    }
-  `;
-}
 
 export function ViewportFeature() {
   const [active, setActive] = useState<ViewportPreset['id']>(() =>
@@ -52,22 +19,25 @@ export function ViewportFeature() {
 
   useEffect(() => {
     const preset = PRESETS.find((p) => p.id === active) ?? PRESETS[3];
-    applyViewport(preset?.width ?? null);
+    if (preset?.width !== null && preset?.width !== undefined) {
+      mountViewportIframe(preset.width);
+    } else {
+      unmountViewportIframe();
+    }
     writeStorage(STORAGE_KEY, active);
   }, [active]);
 
   useEffect(() => {
     return () => {
-      const style = document.getElementById(STYLE_ID);
-      style?.remove();
+      unmountViewportIframe();
     };
   }, []);
 
   return (
     <div className="dmp-panel">
       <p className="dmp-panel__intro">
-        Visually constrains the page width. For accurate breakpoint testing (hover/touch/real
-        media queries), use the browser&apos;s Device Mode.
+        Renders your app inside a real iframe at the chosen width. Media queries respond as on
+        a real device. Page state is reloaded on switch.
       </p>
       <div className="dmp-grid">
         {PRESETS.map((preset) => (

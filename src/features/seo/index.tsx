@@ -2,18 +2,30 @@ import { useEffect, useState } from 'react';
 import type { ChecklistResult } from '../../types';
 import { ChecklistItem } from '../../ui/ChecklistItem';
 import { runSeoChecks } from './checks';
+import { getActiveDocument, onActiveDocumentChange } from '../../core/active-document';
 
 export function SeoFeature() {
   const [results, setResults] = useState<ChecklistResult[]>([]);
 
   useEffect(() => {
-    setResults(runSeoChecks());
-    const observer = new MutationObserver(() => {
-      setResults(runSeoChecks());
-    });
-    observer.observe(document.head, { childList: true, subtree: true, attributes: true });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
-    return () => observer.disconnect();
+    let observer: MutationObserver | null = null;
+
+    const refresh = () => {
+      const doc = getActiveDocument();
+      setResults(runSeoChecks(doc));
+
+      observer?.disconnect();
+      observer = new MutationObserver(refresh);
+      observer.observe(doc.head, { childList: true, subtree: true, attributes: true });
+      observer.observe(doc.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    };
+
+    refresh();
+    const unwatch = onActiveDocumentChange(refresh);
+    return () => {
+      observer?.disconnect();
+      unwatch();
+    };
   }, []);
 
   const passing = results.filter((r) => r.status === 'pass').length;

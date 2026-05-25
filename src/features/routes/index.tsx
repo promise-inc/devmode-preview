@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { DevModeRoute } from '../../types';
 import { IconExternal, IconSearch } from '../../ui/icons';
+import { getActiveWindow, navigateActive, onActiveDocumentChange } from '../../core/active-document';
 
 interface RoutesFeatureProps {
   routes: DevModeRoute[];
@@ -20,10 +21,21 @@ export function RoutesFeature({ routes }: RoutesFeatureProps) {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    setCurrentPath(window.location.pathname);
-    const handler = () => setCurrentPath(window.location.pathname);
+    const refresh = () => {
+      try {
+        setCurrentPath(getActiveWindow().location.pathname);
+      } catch {
+        setCurrentPath(window.location.pathname);
+      }
+    };
+    refresh();
+    const handler = () => refresh();
     window.addEventListener('popstate', handler);
-    return () => window.removeEventListener('popstate', handler);
+    const unwatch = onActiveDocumentChange(refresh);
+    return () => {
+      window.removeEventListener('popstate', handler);
+      unwatch();
+    };
   }, []);
 
   const grouped = useMemo(() => {
@@ -48,7 +60,7 @@ export function RoutesFeature({ routes }: RoutesFeatureProps) {
   }, [routes, search]);
 
   const navigate = (path: string) => {
-    window.location.href = path;
+    navigateActive(path);
   };
 
   if (routes.length === 0) {

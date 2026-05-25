@@ -1,23 +1,19 @@
 import type { ChecklistResult } from '../../types';
 
-export function runSeoChecks(): ChecklistResult[] {
-  const results: ChecklistResult[] = [];
-
-  const title = document.querySelector('title')?.textContent?.trim() ?? '';
-  results.push(
+export function runSeoChecks(doc: Document = document): ChecklistResult[] {
+  const title = doc.querySelector('title')?.textContent?.trim() ?? '';
+  return [
     titleCheck(title),
-    metaDescriptionCheck(),
-    h1Check(),
-    headingsHierarchyCheck(),
-    altCheck(),
-    canonicalCheck(),
-    ogCheck(),
-    twitterCheck(),
-    jsonLdCheck(),
-    htmlLangCheck(),
-  );
-
-  return results;
+    metaDescriptionCheck(doc),
+    h1Check(doc),
+    headingsHierarchyCheck(doc),
+    altCheck(doc),
+    canonicalCheck(doc),
+    ogCheck(doc),
+    twitterCheck(doc),
+    jsonLdCheck(doc),
+    htmlLangCheck(doc),
+  ];
 }
 
 function titleCheck(title: string): ChecklistResult {
@@ -36,8 +32,8 @@ function titleCheck(title: string): ChecklistResult {
   return { id: 'title', label: 'Title tag', status: 'pass', value: `"${title}" (${title.length})` };
 }
 
-function metaDescriptionCheck(): ChecklistResult {
-  const meta = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+function metaDescriptionCheck(doc: Document): ChecklistResult {
+  const meta = doc.querySelector<HTMLMetaElement>('meta[name="description"]');
   const content = meta?.content?.trim() ?? '';
   if (!content) {
     return {
@@ -64,8 +60,8 @@ function metaDescriptionCheck(): ChecklistResult {
   };
 }
 
-function h1Check(): ChecklistResult {
-  const h1s = document.querySelectorAll('h1');
+function h1Check(doc: Document): ChecklistResult {
+  const h1s = doc.querySelectorAll('h1');
   if (h1s.length === 0) {
     return { id: 'h1', label: 'H1 tag', status: 'fail', hint: 'Every page should have one <h1>.' };
   }
@@ -86,9 +82,9 @@ function h1Check(): ChecklistResult {
   };
 }
 
-function headingsHierarchyCheck(): ChecklistResult {
+function headingsHierarchyCheck(doc: Document): ChecklistResult {
   const headings = Array.from(
-    document.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4, h5, h6'),
+    doc.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4, h5, h6'),
   );
   let prev = 0;
   for (const h of headings) {
@@ -106,8 +102,8 @@ function headingsHierarchyCheck(): ChecklistResult {
   return { id: 'headings', label: 'Heading hierarchy', status: 'pass' };
 }
 
-function altCheck(): ChecklistResult {
-  const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('img'));
+function altCheck(doc: Document): ChecklistResult {
+  const imgs = Array.from(doc.querySelectorAll<HTMLImageElement>('img'));
   const missing = imgs.filter((img) => !img.hasAttribute('alt'));
   if (missing.length === 0) {
     return {
@@ -126,8 +122,8 @@ function altCheck(): ChecklistResult {
   };
 }
 
-function canonicalCheck(): ChecklistResult {
-  const link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+function canonicalCheck(doc: Document): ChecklistResult {
+  const link = doc.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (!link) {
     return {
       id: 'canonical',
@@ -139,11 +135,9 @@ function canonicalCheck(): ChecklistResult {
   return { id: 'canonical', label: 'Canonical URL', status: 'pass', value: link.href };
 }
 
-function ogCheck(): ChecklistResult {
+function ogCheck(doc: Document): ChecklistResult {
   const required = ['og:title', 'og:description', 'og:image', 'og:url', 'og:type'];
-  const missing = required.filter(
-    (k) => !document.querySelector(`meta[property="${k}"]`),
-  );
+  const missing = required.filter((k) => !doc.querySelector(`meta[property="${k}"]`));
   if (missing.length === 0) {
     return { id: 'og', label: 'Open Graph tags', status: 'pass', value: 'All present' };
   }
@@ -156,11 +150,9 @@ function ogCheck(): ChecklistResult {
   };
 }
 
-function twitterCheck(): ChecklistResult {
+function twitterCheck(doc: Document): ChecklistResult {
   const required = ['twitter:card', 'twitter:title', 'twitter:image'];
-  const missing = required.filter(
-    (k) => !document.querySelector(`meta[name="${k}"]`),
-  );
+  const missing = required.filter((k) => !doc.querySelector(`meta[name="${k}"]`));
   if (missing.length === 0) {
     return { id: 'twitter', label: 'Twitter Cards', status: 'pass', value: 'All present' };
   }
@@ -172,9 +164,9 @@ function twitterCheck(): ChecklistResult {
   };
 }
 
-function jsonLdCheck(): ChecklistResult {
+function jsonLdCheck(doc: Document): ChecklistResult {
   const blocks = Array.from(
-    document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]'),
+    doc.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]'),
   );
   if (blocks.length === 0) {
     return {
@@ -187,10 +179,10 @@ function jsonLdCheck(): ChecklistResult {
   const types: string[] = [];
   for (const block of blocks) {
     try {
-      const parsed = JSON.parse(block.textContent ?? '{}');
+      const parsed = JSON.parse(block.textContent ?? '{}') as { '@type'?: unknown };
       const t = parsed['@type'];
       if (typeof t === 'string') types.push(t);
-      else if (Array.isArray(t)) types.push(...t);
+      else if (Array.isArray(t)) types.push(...t.filter((x): x is string => typeof x === 'string'));
     } catch {
       return {
         id: 'jsonld',
@@ -208,8 +200,8 @@ function jsonLdCheck(): ChecklistResult {
   };
 }
 
-function htmlLangCheck(): ChecklistResult {
-  const lang = document.documentElement.getAttribute('lang');
+function htmlLangCheck(doc: Document): ChecklistResult {
+  const lang = doc.documentElement.getAttribute('lang');
   if (!lang) {
     return {
       id: 'html-lang',
