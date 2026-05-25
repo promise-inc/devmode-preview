@@ -3,6 +3,7 @@ import type { FeatureKey } from '../types';
 interface TabItem {
   id: FeatureKey;
   label: string;
+  full?: string;
 }
 
 interface TabsProps {
@@ -23,6 +24,7 @@ export function Tabs({ tabs, active, onSelect }: TabsProps) {
           data-active={active === tab.id ? 'true' : 'false'}
           className="dmp-tab"
           onClick={() => onSelect(tab.id)}
+          title={tab.full ?? tab.label}
         >
           {tab.label}
         </button>

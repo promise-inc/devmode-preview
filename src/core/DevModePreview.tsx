@@ -35,13 +35,13 @@ function mergeRoutes(propRoutes: DevModeRoute[]): DevModeRoute[] {
   return Array.from(map.values()).sort((a, b) => a.path.localeCompare(b.path));
 }
 
-const TAB_DEFS: Array<{ id: FeatureKey; label: string }> = [
-  { id: 'viewport', label: 'Viewport' },
-  { id: 'routes', label: 'Routes' },
-  { id: 'seo', label: 'SEO' },
-  { id: 'performance', label: 'Performance' },
-  { id: 'marketing', label: 'Marketing' },
-  { id: 'deps', label: 'Dependencies' },
+const TAB_DEFS: Array<{ id: FeatureKey; label: string; full: string }> = [
+  { id: 'viewport', label: 'Viewport', full: 'Viewport' },
+  { id: 'routes', label: 'Routes', full: 'Routes' },
+  { id: 'seo', label: 'SEO', full: 'SEO' },
+  { id: 'performance', label: 'Perf', full: 'Performance' },
+  { id: 'marketing', label: 'Tags', full: 'Marketing / Trackers' },
+  { id: 'deps', label: 'Deps', full: 'Dependencies' },
 ];
 
 const THEME_CYCLE: ThemeMode[] = ['auto', 'dark', 'light'];

@@ -28,13 +28,19 @@ function applyViewport(width: number | null): void {
   }
 
   style.textContent = `
-    html { background: #0a0a0a; }
+    html {
+      background: #0a0a0a !important;
+      overflow-x: hidden !important;
+    }
     body {
       max-width: ${width}px !important;
       margin-left: auto !important;
       margin-right: auto !important;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px -10px rgba(0,0,0,0.6) !important;
       min-height: 100vh;
+      overflow-x: hidden !important;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px -10px rgba(0,0,0,0.6) !important;
+      transform: translateZ(0) !important;
+      will-change: transform;
     }
   `;
 }
