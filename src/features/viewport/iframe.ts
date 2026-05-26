@@ -8,12 +8,14 @@ interface DeviceSpec {
   kind: DeviceKind;
   name: string;
   height: number;
+  safeTop: number;
+  safeBottom: number;
 }
 
 function classify(width: number): DeviceSpec {
-  if (width <= 480) return { kind: 'mobile', name: 'iPhone', height: 812 };
-  if (width <= 900) return { kind: 'tablet', name: 'iPad', height: 1024 };
-  return { kind: 'desktop', name: 'Desktop', height: 800 };
+  if (width <= 480) return { kind: 'mobile', name: 'iPhone', height: 812, safeTop: 50, safeBottom: 28 };
+  if (width <= 900) return { kind: 'tablet', name: 'iPad', height: 1024, safeTop: 24, safeBottom: 12 };
+  return { kind: 'desktop', name: 'Desktop', height: 800, safeTop: 0, safeBottom: 0 };
 }
 
 function buildIframeUrl(): string {
@@ -46,13 +48,74 @@ function injectScrollbarHider(iframe: HTMLIFrameElement): void {
   }
 }
 
-function buildDevice(width: number, spec: DeviceSpec): {
+function makeTopBar(spec: DeviceSpec): HTMLDivElement {
+  const bar = document.createElement('div');
+  bar.style.cssText = [
+    `height:${spec.safeTop}px`,
+    'background:#000',
+    'flex:0 0 auto',
+    'display:flex',
+    'align-items:center',
+    'justify-content:center',
+    'position:relative',
+  ].join(';');
+
+  if (spec.kind === 'mobile') {
+    const island = document.createElement('div');
+    island.style.cssText = [
+      'width:108px',
+      'height:28px',
+      'background:#0a0a0a',
+      'border-radius:14px',
+      'box-shadow:inset 0 0 0 1px rgba(255,255,255,0.05)',
+    ].join(';');
+    bar.appendChild(island);
+  } else if (spec.kind === 'tablet') {
+    const camera = document.createElement('div');
+    camera.style.cssText = [
+      'width:7px',
+      'height:7px',
+      'background:#1a1a1a',
+      'border-radius:50%',
+      'box-shadow:inset 0 0 0 1px rgba(255,255,255,0.12)',
+    ].join(';');
+    bar.appendChild(camera);
+  }
+
+  return bar;
+}
+
+function makeBottomBar(spec: DeviceSpec): HTMLDivElement {
+  const bar = document.createElement('div');
+  bar.style.cssText = [
+    `height:${spec.safeBottom}px`,
+    'background:#000',
+    'flex:0 0 auto',
+    'display:flex',
+    'align-items:center',
+    'justify-content:center',
+  ].join(';');
+
+  if (spec.kind === 'mobile') {
+    const indicator = document.createElement('div');
+    indicator.style.cssText = [
+      'width:134px',
+      'height:5px',
+      'background:rgba(255,255,255,0.9)',
+      'border-radius:3px',
+    ].join(';');
+    bar.appendChild(indicator);
+  }
+
+  return bar;
+}
+
+interface DeviceLayout {
   device: HTMLDivElement;
-  frameSlot: HTMLDivElement;
-  bezelPadding: { x: number; y: number };
-  outerRadius: number;
-  innerRadius: number;
-} {
+  iframeSlot: HTMLDivElement;
+}
+
+function buildDevice(width: number, spec: DeviceSpec): DeviceLayout {
   const device = document.createElement('div');
   device.setAttribute('data-dmp-device', spec.kind);
 
@@ -88,74 +151,27 @@ function buildDevice(width: number, spec: DeviceSpec): {
       : 'box-shadow:inset 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,0,0,0.6)',
   ].join(';');
 
-  const frameSlot = document.createElement('div');
-  frameSlot.style.cssText = [
-    'position:relative',
+  const screen = document.createElement('div');
+  screen.style.cssText = [
     `width:${width}px`,
     'max-width:100%',
     `border-radius:${innerRadius}px`,
     'overflow:hidden',
-    'background:#ffffff',
+    'background:#000',
     'display:flex',
+    'flex-direction:column',
   ].join(';');
-  device.appendChild(frameSlot);
+  device.appendChild(screen);
 
-  if (spec.kind === 'mobile') {
-    const island = document.createElement('div');
-    island.style.cssText = [
-      'position:absolute',
-      'top:10px',
-      'left:50%',
-      'transform:translateX(-50%)',
-      'width:108px',
-      'height:28px',
-      'background:#000',
-      'border-radius:14px',
-      'z-index:3',
-      'pointer-events:none',
-    ].join(';');
-    frameSlot.appendChild(island);
+  if (spec.safeTop > 0) screen.appendChild(makeTopBar(spec));
 
-    const indicator = document.createElement('div');
-    indicator.style.cssText = [
-      'position:absolute',
-      'bottom:8px',
-      'left:50%',
-      'transform:translateX(-50%)',
-      'width:134px',
-      'height:5px',
-      'background:rgba(255,255,255,0.85)',
-      'border-radius:3px',
-      'z-index:3',
-      'pointer-events:none',
-      'mix-blend-mode:difference',
-    ].join(';');
-    frameSlot.appendChild(indicator);
-  } else if (spec.kind === 'tablet') {
-    const camera = document.createElement('div');
-    camera.style.cssText = [
-      'position:absolute',
-      'top:8px',
-      'left:50%',
-      'transform:translateX(-50%)',
-      'width:8px',
-      'height:8px',
-      'background:#1a1a1a',
-      'border-radius:50%',
-      'z-index:3',
-      'pointer-events:none',
-      'box-shadow:inset 0 0 0 1px rgba(255,255,255,0.1)',
-    ].join(';');
-    frameSlot.appendChild(camera);
-  }
+  const iframeSlot = document.createElement('div');
+  iframeSlot.style.cssText = ['flex:1 1 auto', 'min-height:0', 'display:flex', 'background:#fff'].join(';');
+  screen.appendChild(iframeSlot);
 
-  return {
-    device,
-    frameSlot,
-    bezelPadding: { x: bezelX, y: bezelY },
-    outerRadius,
-    innerRadius,
-  };
+  if (spec.safeBottom > 0) screen.appendChild(makeBottomBar(spec));
+
+  return { device, iframeSlot };
 }
 
 export function mountViewportIframe(width: number): IframeMount | null {
@@ -190,7 +206,7 @@ export function mountViewportIframe(width: number): IframeMount | null {
     'overflow:hidden',
   ].join(';');
 
-  const { device, frameSlot } = buildDevice(width, spec);
+  const { device, iframeSlot } = buildDevice(width, spec);
 
   const availH = Math.max(320, window.innerHeight - 120);
   const desiredH = Math.min(spec.height + (spec.kind === 'desktop' ? 0 : 32), availH);
@@ -211,7 +227,7 @@ export function mountViewportIframe(width: number): IframeMount | null {
   ].join(';');
 
   frame.addEventListener('load', () => injectScrollbarHider(frame));
-  frameSlot.appendChild(frame);
+  iframeSlot.appendChild(frame);
 
   const label = document.createElement('div');
   label.style.cssText = [
