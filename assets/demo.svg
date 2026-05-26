@@ -1,9 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" width="800" height="460" role="img" aria-label="DevMode Preview drawer in action">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" aria-label="DevMode Preview overview">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#0d0f10"/>
       <stop offset="1" stop-color="#15181a"/>
     </linearGradient>
+    <radialGradient id="stage" cx="50%" cy="50%" r="60%">
+      <stop offset="0" stop-color="#16181a"/>
+      <stop offset="1" stop-color="#050607"/>
+    </radialGradient>
     <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#b6f23d"/>
       <stop offset="1" stop-color="#7fd932"/>
@@ -14,6 +18,12 @@
       <feComponentTransfer><feFuncA type="linear" slope="0.45"/></feComponentTransfer>
       <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <filter id="phoneShadow" x="-20%" y="-10%" width="140%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="14"/>
+      <feOffset dx="0" dy="22" result="o"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.55"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
     <style>
       .mono { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }
       .sans { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
@@ -22,93 +32,177 @@
     </style>
   </defs>
 
-  <!-- background -->
-  <rect width="800" height="460" fill="url(#bg)"/>
+  <!-- backdrop -->
+  <rect width="960" height="540" fill="url(#bg)"/>
 
-  <!-- mock app content faded -->
-  <g opacity="0.20" fill="#9aa3aa" class="sans">
-    <rect x="40" y="40" width="220" height="14" rx="3"/>
-    <rect x="40" y="62" width="160" height="10" rx="3"/>
-    <rect x="40" y="100" width="320" height="120" rx="8" fill="#1b1f22"/>
-    <rect x="40" y="240" width="320" height="80" rx="8" fill="#1b1f22"/>
+  <!-- viewport stage -->
+  <rect x="32" y="32" width="540" height="476" rx="16" fill="url(#stage)" stroke="#1f2225"/>
+
+  <!-- iPhone mockup -->
+  <g transform="translate(206,60)" filter="url(#phoneShadow)">
+    <!-- bezel -->
+    <rect x="0" y="0" width="200" height="420" rx="36" fill="#0a0a0a" stroke="rgba(255,255,255,0.06)"/>
+    <!-- screen -->
+    <rect x="14" y="16" width="172" height="388" rx="26" fill="#000"/>
+    <!-- top safe area -->
+    <rect x="14" y="16" width="172" height="36" fill="#000"/>
+    <!-- dynamic island -->
+    <rect x="64" y="22" width="72" height="22" rx="11" fill="#0a0a0a" stroke="rgba(255,255,255,0.06)"/>
+    <!-- iframe content (cremalabs style) -->
+    <g transform="translate(14,52)">
+      <rect width="172" height="332" fill="#0a0a0a"/>
+      <!-- nav -->
+      <g transform="translate(12,12)">
+        <circle cx="6" cy="6" r="5" fill="url(#accent)"/>
+        <rect x="16" y="2" width="58" height="8" rx="2" fill="#fff"/>
+        <rect x="138" y="0" width="22" height="12" rx="6" fill="#1a1d1f"/>
+      </g>
+      <!-- pill -->
+      <rect x="40" y="42" width="92" height="14" rx="7" fill="rgba(182,242,61,0.12)" stroke="rgba(182,242,61,0.4)"/>
+      <text x="86" y="52" text-anchor="middle" font-size="6" font-weight="700" fill="#b6f23d" class="sans" letter-spacing="0.5">ACESSO LEGALIZADO</text>
+      <!-- big headline -->
+      <text x="14" y="86" font-size="22" font-weight="800" fill="#fff" class="sans">SEU</text>
+      <text x="14" y="110" font-size="22" font-weight="800" fill="#fff" class="sans">CAMINHO</text>
+      <text x="14" y="134" font-size="22" font-weight="800" fill="#fff" class="sans">COM <tspan font-style="italic" fill="#b6f23d">canna</tspan></text>
+      <text x="14" y="158" font-size="22" font-weight="800" fill="#fff" class="sans">MEDICIN…</text>
+      <!-- copy -->
+      <rect x="14" y="172" width="144" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+      <rect x="14" y="180" width="136" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+      <rect x="14" y="188" width="120" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+      <!-- CTA -->
+      <rect x="44" y="208" width="84" height="22" rx="11" fill="#b6f23d"/>
+      <text x="86" y="222" text-anchor="middle" font-size="7" font-weight="700" fill="#0a0a0a" class="sans" letter-spacing="0.5">QUERO SER PACIENTE</text>
+    </g>
+    <!-- home indicator -->
+    <rect x="64" y="394" width="72" height="3" rx="1.5" fill="rgba(255,255,255,0.85)"/>
   </g>
 
+  <!-- stage label -->
+  <text x="302" y="496" text-anchor="middle" fill="#6b7480" font-size="10" class="mono" letter-spacing="0.4">iPhone · 375 × 812 · real iframe</text>
+
   <!-- drawer -->
-  <g filter="url(#shadow)">
-    <rect x="420" y="40" width="340" height="380" rx="14" fill="#0d0f10" stroke="#25292d"/>
+  <g filter="url(#shadow)" transform="translate(600,32)">
+    <rect width="328" height="476" rx="14" fill="#0d0f10" stroke="#25292d"/>
 
     <!-- drawer header -->
     <g>
-      <circle cx="442" cy="65" r="4" fill="url(#accent)" class="pulse"/>
-      <text x="454" y="69" fill="#e7ecef" font-size="11" font-weight="700" letter-spacing="1.2" class="sans">DEVMODE · PREVIEW</text>
-      <g transform="translate(706,55)">
+      <circle cx="22" cy="26" r="4" fill="url(#accent)" class="pulse"/>
+      <text x="34" y="30" fill="#e7ecef" font-size="13" font-weight="600" class="sans">DevMode · Preview</text>
+      <g transform="translate(266,16)">
         <rect width="22" height="22" rx="6" fill="transparent" stroke="#25292d"/>
-        <path d="M6 11h10" stroke="#9aa3aa" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="11" cy="11" r="4" fill="none" stroke="#9aa3aa" stroke-width="1.4"/>
+        <path d="M11 4v2M11 16v2M4 11h2M16 11h2M6 6l1.4 1.4M14.6 14.6l1.4 1.4M6 16l1.4-1.4M14.6 7.4l1.4-1.4" stroke="#9aa3aa" stroke-width="1.2" stroke-linecap="round"/>
       </g>
-      <g transform="translate(732,55)">
+      <g transform="translate(294,16)">
         <rect width="22" height="22" rx="6" fill="transparent" stroke="#25292d"/>
         <path d="M7 7l8 8M15 7l-8 8" stroke="#9aa3aa" stroke-width="1.6" stroke-linecap="round"/>
       </g>
     </g>
-    <line x1="430" y1="86" x2="750" y2="86" stroke="#1d2124"/>
+    <line x1="0" y1="48" x2="328" y2="48" stroke="#1d2124"/>
 
     <!-- tabs -->
-    <g transform="translate(430,96)">
-      <rect width="74" height="28" rx="6" fill="#15181a" stroke="#25292d"/>
-      <text x="37" y="18" text-anchor="middle" fill="#e7ecef" font-size="11" font-weight="500" class="sans">Viewport</text>
-      <text x="120" y="18" fill="#9aa3aa" font-size="11" class="sans">Routes</text>
-      <text x="172" y="18" fill="#9aa3aa" font-size="11" class="sans">SEO</text>
-      <text x="220" y="18" fill="#9aa3aa" font-size="11" class="sans">Performance</text>
+    <g transform="translate(10,58)">
+      <rect width="58" height="28" rx="6" fill="#15181a" stroke="#25292d"/>
+      <text x="29" y="18" text-anchor="middle" fill="#e7ecef" font-size="11" font-weight="500" class="sans">Viewport</text>
+      <text x="80" y="18" fill="#9aa3aa" font-size="11" class="sans">Routes</text>
+      <text x="128" y="18" fill="#9aa3aa" font-size="11" class="sans">SEO</text>
+      <text x="162" y="18" fill="#9aa3aa" font-size="11" class="sans">Perf</text>
+      <text x="196" y="18" fill="#9aa3aa" font-size="11" class="sans">Tags</text>
+      <text x="232" y="18" fill="#9aa3aa" font-size="11" class="sans">Deps</text>
     </g>
 
-    <line x1="430" y1="138" x2="750" y2="138" stroke="#1d2124"/>
+    <line x1="0" y1="100" x2="328" y2="100" stroke="#1d2124"/>
 
-    <!-- viewport intro -->
-    <text x="446" y="160" fill="#9aa3aa" font-size="10.5" class="sans">
-      <tspan>Visually constrains the page width.</tspan>
+    <!-- intro copy -->
+    <text x="16" y="124" fill="#9aa3aa" font-size="11" class="sans">
+      <tspan>Real iframe — media queries respond as on</tspan>
     </text>
-    <text x="446" y="176" fill="#9aa3aa" font-size="10.5" class="sans">
-      <tspan>Use Device Mode for accurate breakpoints.</tspan>
+    <text x="16" y="140" fill="#9aa3aa" font-size="11" class="sans">
+      <tspan>actual devices.</tspan>
     </text>
 
     <!-- viewport grid -->
-    <g transform="translate(440,200)">
+    <g transform="translate(16,160)">
       <!-- Mobile (selected) -->
-      <rect width="148" height="62" rx="8" fill="rgba(182,242,61,0.08)" stroke="#b6f23d"/>
+      <rect width="144" height="62" rx="8" fill="rgba(182,242,61,0.08)" stroke="#b6f23d"/>
       <text x="14" y="26" fill="#b6f23d" font-size="14" font-weight="700" class="sans">Mobile</text>
       <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">375px</text>
 
-      <!-- Tablet -->
-      <g transform="translate(160,0)">
-        <rect width="148" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
+      <g transform="translate(152,0)">
+        <rect width="144" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
         <text x="14" y="26" fill="#e7ecef" font-size="14" font-weight="700" class="sans">Tablet</text>
         <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">768px</text>
       </g>
 
-      <!-- Desktop -->
       <g transform="translate(0,76)">
-        <rect width="148" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
+        <rect width="144" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
         <text x="14" y="26" fill="#e7ecef" font-size="14" font-weight="700" class="sans">Desktop</text>
         <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">1280px</text>
       </g>
 
-      <!-- Full -->
-      <g transform="translate(160,76)">
-        <rect width="148" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
+      <g transform="translate(152,76)">
+        <rect width="144" height="62" rx="8" fill="#15181a" stroke="#25292d"/>
         <text x="14" y="26" fill="#e7ecef" font-size="14" font-weight="700" class="sans">Full</text>
         <text x="14" y="46" fill="#9aa3aa" font-size="11" class="mono">100%</text>
       </g>
     </g>
 
+    <!-- mini checks preview -->
+    <g transform="translate(16,330)">
+      <text x="0" y="0" font-size="9" fill="#6b7480" font-weight="700" letter-spacing="1" class="sans">LIVE AUDITS</text>
+      <g transform="translate(0,12)">
+        <circle cx="4" cy="6" r="3" fill="#b6f23d"/>
+        <text x="14" y="9" font-size="11" fill="#e7ecef" class="sans">SEO · 9/10 checks passing</text>
+      </g>
+      <g transform="translate(0,30)">
+        <circle cx="4" cy="6" r="3" fill="#ffb547"/>
+        <text x="14" y="9" font-size="11" fill="#e7ecef" class="sans">LCP · 2.8s · slightly slow</text>
+      </g>
+      <g transform="translate(0,48)">
+        <circle cx="4" cy="6" r="3" fill="#b6f23d"/>
+        <text x="14" y="9" font-size="11" fill="#e7ecef" class="sans">GA4, Meta Pixel, Hotjar detected</text>
+      </g>
+      <g transform="translate(0,66)">
+        <circle cx="4" cy="6" r="3" fill="#ff6b6b"/>
+        <text x="14" y="9" font-size="11" fill="#e7ecef" class="sans">next 14.0.3 → 14.2.18 · 3 CVEs</text>
+      </g>
+    </g>
+
     <!-- footer -->
-    <line x1="430" y1="392" x2="750" y2="392" stroke="#1d2124"/>
-    <text x="446" y="410" fill="#6b7480" font-size="10" class="mono">Persisted in localStorage · dev only</text>
+    <line x1="0" y1="442" x2="328" y2="442" stroke="#1d2124"/>
+    <text x="16" y="460" fill="#6b7480" font-size="10" class="mono">Persisted in localStorage · dev only</text>
   </g>
 
-  <!-- FAB hint bottom left -->
-  <g transform="translate(40,400)">
-    <rect width="178" height="32" rx="16" fill="#15181a" stroke="#25292d"/>
-    <circle cx="18" cy="16" r="4" fill="url(#accent)" class="pulse"/>
-    <text x="30" y="20" fill="#e7ecef" font-size="11" font-weight="700" letter-spacing="1.2" class="sans">DEVMODE · PREVIEW</text>
+  <!-- segmented FAB bottom-right preview -->
+  <g transform="translate(560,490)">
+    <rect width="380" height="36" rx="18" fill="#15181a" stroke="#25292d" filter="url(#shadow)"/>
+    <circle cx="20" cy="18" r="4" fill="url(#accent)" class="pulse"/>
+    <text x="32" y="22" fill="#e7ecef" font-size="12" font-weight="600" class="sans">DevMode</text>
+    <line x1="116" y1="6" x2="116" y2="30" stroke="#25292d"/>
+
+    <!-- mobile (active) -->
+    <rect x="116" y="0" width="44" height="36" fill="rgba(182,242,61,0.12)"/>
+    <g transform="translate(132,9)" fill="none" stroke="#b6f23d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="0" width="10" height="18" rx="2"/>
+      <line x1="7" y1="15" x2="9" y2="15"/>
+    </g>
+
+    <line x1="160" y1="6" x2="160" y2="30" stroke="#25292d"/>
+    <g transform="translate(176,9)" fill="none" stroke="#9aa3aa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="0" y="0" width="16" height="18" rx="2"/>
+      <line x1="7" y1="15" x2="9" y2="15"/>
+    </g>
+
+    <line x1="208" y1="6" x2="208" y2="30" stroke="#25292d"/>
+    <g transform="translate(222,11)" fill="none" stroke="#9aa3aa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="0" y="0" width="20" height="13" rx="2"/>
+      <line x1="6" y1="18" x2="14" y2="18"/>
+      <line x1="10" y1="14" x2="10" y2="18"/>
+    </g>
+
+    <line x1="256" y1="6" x2="256" y2="30" stroke="#25292d"/>
+    <g transform="translate(272,10)" fill="none" stroke="#9aa3aa" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 6V1h5M16 6V1h-5M0 10v5h5M16 10v5h-5"/>
+    </g>
   </g>
 </svg>
