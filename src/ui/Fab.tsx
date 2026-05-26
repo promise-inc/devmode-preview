@@ -25,7 +25,7 @@ export function Fab({ position = 'bottom-right', onOpen, activeViewport, onViewp
         aria-label="Open DevMode Preview"
       >
         <span className="dmp-fab__dot" aria-hidden />
-        <span>DEVMODE</span>
+        <span>DevMode</span>
       </button>
       <div className="dmp-fab__shortcuts" aria-label="Viewport shortcuts">
         {SHORTCUTS.map(({ id, label, Icon }) => (

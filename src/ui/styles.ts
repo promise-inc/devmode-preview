@@ -99,8 +99,8 @@ export const STYLES = /* css */ `
   color: var(--dmp-text);
   border: 0;
   font: inherit;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0;
   cursor: pointer;
   transition: background 140ms ease;
 }
@@ -217,9 +217,9 @@ export const STYLES = /* css */ `
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
 }
 
 .dmp-drawer__actions {

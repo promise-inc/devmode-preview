@@ -53,7 +53,7 @@ export function Drawer({ open, onClose, theme, onCycleTheme, children, footer }:
         <div className="dmp-drawer__header">
           <div className="dmp-drawer__title">
             <span className="dmp-fab__dot" aria-hidden />
-            <span>DEVMODE · PREVIEW</span>
+            <span>DevMode · Preview</span>
           </div>
           <div className="dmp-drawer__actions">
             <button
