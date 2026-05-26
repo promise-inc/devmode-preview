@@ -58,20 +58,20 @@
         <rect x="138" y="0" width="22" height="12" rx="6" fill="#1a1d1f"/>
       </g>
       <!-- pill -->
-      <rect x="40" y="42" width="92" height="14" rx="7" fill="rgba(182,242,61,0.12)" stroke="rgba(182,242,61,0.4)"/>
-      <text x="86" y="52" text-anchor="middle" font-size="6" font-weight="700" fill="#b6f23d" class="sans" letter-spacing="0.5">ACESSO LEGALIZADO</text>
+      <rect x="30" y="42" width="112" height="16" rx="8" fill="rgba(182,242,61,0.12)" stroke="rgba(182,242,61,0.4)" stroke-width="0.8"/>
+      <text x="86" y="53" text-anchor="middle" font-size="7" font-weight="700" fill="#b6f23d" class="sans" letter-spacing="0.4">ACESSO LEGALIZADO</text>
       <!-- big headline -->
-      <text x="14" y="86" font-size="22" font-weight="800" fill="#fff" class="sans">SEU</text>
-      <text x="14" y="110" font-size="22" font-weight="800" fill="#fff" class="sans">CAMINHO</text>
-      <text x="14" y="134" font-size="22" font-weight="800" fill="#fff" class="sans">COM <tspan font-style="italic" fill="#b6f23d">canna</tspan></text>
-      <text x="14" y="158" font-size="22" font-weight="800" fill="#fff" class="sans">MEDICIN…</text>
+      <text x="14" y="88" font-size="20" font-weight="800" fill="#fff" class="sans">SEU</text>
+      <text x="14" y="110" font-size="20" font-weight="800" fill="#fff" class="sans">CAMINHO</text>
+      <text x="14" y="132" font-size="20" font-weight="800" fill="#fff" class="sans">COM <tspan font-style="italic" fill="#b6f23d">canna</tspan></text>
+      <text x="14" y="154" font-size="20" font-weight="800" fill="#fff" class="sans">MEDICIN…</text>
       <!-- copy -->
       <rect x="14" y="172" width="144" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
       <rect x="14" y="180" width="136" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
       <rect x="14" y="188" width="120" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
       <!-- CTA -->
-      <rect x="44" y="208" width="84" height="22" rx="11" fill="#b6f23d"/>
-      <text x="86" y="222" text-anchor="middle" font-size="7" font-weight="700" fill="#0a0a0a" class="sans" letter-spacing="0.5">QUERO SER PACIENTE</text>
+      <rect x="26" y="208" width="120" height="24" rx="12" fill="#b6f23d"/>
+      <text x="86" y="223" text-anchor="middle" font-size="8" font-weight="700" fill="#0a0a0a" class="sans" letter-spacing="0.3">QUERO SER PACIENTE</text>
     </g>
     <!-- home indicator -->
     <rect x="64" y="394" width="72" height="3" rx="1.5" fill="rgba(255,255,255,0.85)"/>
